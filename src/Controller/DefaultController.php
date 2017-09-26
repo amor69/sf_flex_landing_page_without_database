@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Services\SaveToFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,27 +29,20 @@ class DefaultController extends Controller
     /**
      * @Route(path="/contact", name="contact")
      * @param Request $request
+     * @param SaveToFile $saveToFile
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function contact(Request $request)
+    public function contact(Request $request, SaveToFile $saveToFile)
     {
+
+
         $contact = new Contact();
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
-
-            $data = $form->getData();
-            $lastname = $form["lastname"]->getData();
-            $firstname= $form["firstname"]->getData();
-
-            $file = '../src/form.txt';
-            $person = $firstname." ".$lastname." / ";
-            file_put_contents($file, $person, FILE_APPEND);
-
-            $file2 = '../src/form2.csv';
-            file_put_contents($file2, $data, FILE_APPEND);
+        if ($form->isValid() ) {
+        var_dump($contact);
+            $saveToFile = $this->get(SaveToFile::class)->saveToFile($contact);
 
             return $this->redirectToRoute('home');
         }
