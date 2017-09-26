@@ -11,5 +11,7 @@ namespace App\Services;
 
 class SendMailchimp
 {
-    
+    public function sendToMailchimp()
+    {
+    }
 }

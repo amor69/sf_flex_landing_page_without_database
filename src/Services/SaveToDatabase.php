@@ -11,5 +11,7 @@ namespace App\Services;
 
 class SaveToDatabase
 {
-
+    public function saveToDatabase()
+    {
+    }
 }

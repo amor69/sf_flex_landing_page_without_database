@@ -34,17 +34,16 @@ class DefaultController extends Controller
      */
     public function contact(Request $request, SaveToFile $saveToFile)
     {
-
-
         $contact = new Contact();
+        
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
         if ($form->isValid() ) {
-        var_dump($contact);
+       
             $saveToFile = $this->get(SaveToFile::class)->saveToFile($contact);
 
-            return $this->redirectToRoute('home');
+           return $this->redirectToRoute('home');
         }
 
         return $this->render('form/contact.html.twig', [
