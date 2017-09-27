@@ -11,10 +11,13 @@ namespace App\Services;
 
 use App\Entity\Contact;
 use App\Interfaces\ContactRepositoryInterface;
+use Doctrine\ORM\EntityManager;
 
-class ContactRepositoryDatabase implements ContactRepositoryInterface
+class ContactRepositoryDatabase 
 {
-    public function save(Contact $contact)
+    public function save(Contact $contact, EntityManager $em)
     {
+        $em->persist($contact);
+        $em->flush();
     }
 }

@@ -10,8 +10,10 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Services\ContactRepositoryDatabase;
 use App\Services\ContactRepositoryFile;
 use App\Services\SaveToFile;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,11 +32,13 @@ class DefaultController extends Controller
     /**
      * @Route(path="/contact", name="contact")
      * @param Request $request
-     * @param ContactRepositoryFile $contactRepository
+     * @param ContactRepositoryDatabase $contactRepository
+     * @param ContactRepositoryFile $contactRepositoryFile
+     * @param EntityManager $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @internal param ContactRepositoryFile $contactRepositoryFile
      */
-    public function contact(Request $request, ContactRepositoryFile $contactRepository)
+    public function contact(Request $request, ContactRepositoryDatabase $contactRepository, ContactRepositoryFile $contactRepositoryFile , EntityManager $em)
     {
         $contact = new Contact();
 
@@ -43,9 +47,10 @@ class DefaultController extends Controller
         if ($form->isValid() ) {
             $contact = $form->getData();
 
-            $saveToFile = $contactRepository->save($contact);
+            $contactRepository->save($contact, $em);
+            $contactRepositoryFile->save($contact);
 
-           return $this->redirectToRoute('home');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('form/contact.html.twig', [

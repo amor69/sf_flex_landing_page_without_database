@@ -8,65 +8,82 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class Contact
+ * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  */
 
 class Contact
 {
     /**
      * @var int
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
-
+    
     /**
      * @var string
+     * @ORM\Column(name="firstname", type="string", length=255)
      */
     private $firstname;
 
     /**
      * @var string
+     * @ORM\Column(name="lastname", type="string", length=255)
      */
     private $lastname;
 
     /**
      * @var string
+     * @ORM\Column(name="society", type="string", length=255)
      */
     private $society;
 
     /**
      * @var string
+     * @ORM\Column(name="function", type="string", length=255)
      */
     private $function;
 
     /**
      * @var string
+     * @ORM\Column(name="phone", type="string", length=255)
      */
     private $phone;
 
     /**
      * @var string
+     * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      * @var string
+     * @ORM\Column(name="address", type="string", length=255)
      */
     private $address;
 
     /**
      * @var string
+     * @ORM\Column(name="postalCode", type="string", length=255)
      */
     private $postalCode;
 
-    
+
     /**
      * @var string
+     * @ORM\Column(name="city", type="string", length=255)
      */
     private $city;
 
     /**
      * @var string
+     * @ORM\Column(name="message", type="text", length=65535)
      */
     private $message;
 
@@ -79,7 +96,7 @@ class Contact
         return $this->id;
     }
 
-    
+
     /**
      * @return string
      */
@@ -240,5 +257,5 @@ class Contact
         $this->message = $message;
     }
 
-    
+
 }
