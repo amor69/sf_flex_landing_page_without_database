@@ -35,13 +35,12 @@ class DefaultController extends Controller
     public function contact(Request $request, SaveToFile $saveToFile)
     {
         $contact = new Contact();
-        
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
         if ($form->isValid() ) {
-       
-            $saveToFile = $this->get(SaveToFile::class)->saveToFile($contact);
+            $data = $form->getData();
+            $saveToFile = $this->get(SaveToFile::class)->saveToFile($data);
 
            return $this->redirectToRoute('home');
         }

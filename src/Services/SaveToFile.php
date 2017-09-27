@@ -11,10 +11,14 @@ namespace App\Services;
 
 class SaveToFile
 {
-    public function saveToFile($contact)
+    public function saveToFile($data)
     {
-        $file = '../src/form.txt';
-        $person = get_object_vars($contact);
-        file_put_contents($file, $person, FILE_APPEND);
+//        $file = '../src/form.txt';
+//        //$person = get_object_vars($data);
+//        file_put_contents($file, (array)$data, FILE_APPEND);
+
+        $fp = fopen('../var/export/file.csv', 'w');
+        fputcsv($fp, (array)$data);
+        fclose($fp);
     }
 }
